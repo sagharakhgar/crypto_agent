@@ -1,7 +1,7 @@
 # agents/coordinator_agent.py
 import asyncio
 from typing import Dict, List
-from .market_agent import MarketAgent
+from .universal_market_agent import MarketAgent
 from .token_agent import TokenAgent
 from .research_agent import ResearchAgent
 
@@ -13,25 +13,25 @@ class CoordinatorAgent:
         self.session_data = {}
     
     async def execute_sequential_workflow(self, coin_name: str):
-        """اجرای ترتیبی عامل‌ها - Sequential Agents"""
-        print("🚀 شروع فرآیند ترتیبی جمع‌آوری داده‌ها...")
+        """Execute agents sequentially - Sequential Agents"""
+        print("🚀 Starting sequential data collection process...")
         
-        # مرحله 1: داده‌های بازار
+        # Step 1: Market data
         self.session_data['market'] = await self.market_agent.get_market_data(coin_name)
         
-        # مرحله 2: داده‌های توکن
+        # Step 2: Token data
         self.session_data['token'] = await self.token_agent.get_token_data(coin_name)
         
-        # مرحله 3: تحقیقات
+        # Step 3: Research data
         self.session_data['research'] = await self.research_agent.get_research_data(coin_name)
         
         return self.session_data
     
     async def execute_parallel_workflow(self, coin_name: str):
-        """اجرای موازی عامل‌ها - Parallel Agents"""
-        print("⚡ شروع فرآیند موازی جمع‌آوری داده‌ها...")
+        """Execute agents in parallel - Parallel Agents"""
+        print("⚡ Starting parallel data collection process...")
         
-        # اجرای همزمان همه عامل‌ها
+        # Execute all agents simultaneously
         tasks = [
             self.market_agent.get_market_data(coin_name),
             self.token_agent.get_token_data(coin_name),
